@@ -62,6 +62,52 @@ export const JobCard: React.FC<JobCardProps> = ({
 
   const badge = getScoreBadge(job.matchScore);
 
+  const getPortalBadge = (source: string) => {
+    const s = (source || '').toLowerCase();
+    if (s.includes('profession')) {
+      return {
+        bg: 'bg-red-500/15 text-red-300 border-red-500/30',
+        label: 'Profession.hu',
+        icon: '🌐'
+      };
+    }
+    if (s.includes('kozig') || s.includes('közigállás') || s.includes('közszféra')) {
+      return {
+        bg: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+        label: 'Közigállás (Közszféra)',
+        icon: '🏛️'
+      };
+    }
+    if (s.includes('dreamjob') || s.includes('dreamjo.bs')) {
+      return {
+        bg: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+        label: 'Dreamjo.bs',
+        icon: '✨'
+      };
+    }
+    if (s.includes('jobinfo')) {
+      return {
+        bg: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+        label: 'Jobinfo.hu',
+        icon: '💼'
+      };
+    }
+    if (s.includes('mate') || s.includes('egyetem')) {
+      return {
+        bg: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
+        label: 'Egyetemi karrierportál',
+        icon: '🎓'
+      };
+    }
+    return {
+      bg: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
+      label: source || 'Állásportál',
+      icon: '🌐'
+    };
+  };
+
+  const portal = getPortalBadge(job.source);
+
   return (
     <div className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
       job.status === 'rejected'
@@ -70,15 +116,19 @@ export const JobCard: React.FC<JobCardProps> = ({
         ? 'bg-slate-900/90 border-blue-500/40 shadow-lg shadow-blue-500/5'
         : 'bg-slate-900/90 border-slate-800 hover:border-slate-700 shadow-md hover:shadow-xl'
     }`}>
-      {/* Top Banner with Score & Source */}
+      {/* Top Banner with Score & Prominent Portal Badge */}
       <div className="px-5 py-3 border-b border-slate-800/80 bg-slate-950/40 flex items-center justify-between flex-wrap gap-2">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className={`px-2.5 py-1 rounded-full text-xs font-bold border flex items-center gap-1.5 ${badge.bg}`}>
             {badge.label}
           </span>
+          <span className={`px-2.5 py-1 rounded-full text-xs font-bold border flex items-center gap-1.5 shadow-sm ${portal.bg}`}>
+            <span>{portal.icon}</span>
+            <span>Portál: <strong>{portal.label}</strong></span>
+          </span>
           <span className="text-xs text-slate-400 flex items-center gap-1">
             <Clock className="w-3.5 h-3.5 text-slate-500" />
-            {job.postedAt} • Forrás: <strong className="text-slate-300">{job.source}</strong>
+            {job.postedAt}
           </span>
         </div>
 
@@ -113,10 +163,14 @@ export const JobCard: React.FC<JobCardProps> = ({
               </a>
             </h2>
 
-            <div className="flex flex-wrap items-center gap-y-1 gap-x-4 text-sm text-slate-300">
+            <div className="flex flex-wrap items-center gap-y-1.5 gap-x-3 text-sm text-slate-300">
               <span className="inline-flex items-center gap-1.5 font-medium text-slate-200">
                 <Building2 className="w-4 h-4 text-blue-400" />
                 {job.company}
+              </span>
+              <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-xs font-bold border ${portal.bg}`}>
+                <span>{portal.icon}</span>
+                <span>{portal.label}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 text-slate-400">
                 <MapPin className="w-4 h-4 text-cyan-400" />
