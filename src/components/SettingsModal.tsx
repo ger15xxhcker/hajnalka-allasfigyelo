@@ -7,13 +7,15 @@ interface SettingsModalProps {
   onClose: () => void;
   settings: AppSettings;
   onSaveSettings: (settings: AppSettings) => void;
+  onResetSeed?: () => void;
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
   isOpen,
   onClose,
   settings,
-  onSaveSettings
+  onSaveSettings,
+  onResetSeed
 }) => {
   const [formData, setFormData] = useState<AppSettings>(settings);
   const [savedSuccess, setSavedSuccess] = useState(false);
@@ -135,22 +137,38 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </code>
           </div>
 
-          {/* Submit */}
-          <div className="flex items-center justify-end gap-3 pt-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
-            >
-              Mégse
-            </button>
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 transition cursor-pointer"
-            >
-              {savedSuccess ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
-              <span>{savedSuccess ? 'Elmentve!' : 'Beállítások mentése'}</span>
-            </button>
+          {/* Submit & Reset actions */}
+          <div className="flex items-center justify-between gap-3 pt-3">
+            {onResetSeed && (
+              <button
+                type="button"
+                onClick={() => {
+                  onResetSeed();
+                  onClose();
+                }}
+                className="px-3.5 py-2 rounded-xl text-xs font-semibold text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 border border-amber-500/20 transition cursor-pointer"
+                title="Visszaállítja a legfrissebb, 100%-ban működő hirdetések listáját"
+              >
+                🔄 Érvényes hirdetések újratöltése
+              </button>
+            )}
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+              >
+                Mégse
+              </button>
+              <button
+                type="submit"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 transition cursor-pointer"
+              >
+                {savedSuccess ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
+                <span>{savedSuccess ? 'Elmentve!' : 'Mentés'}</span>
+              </button>
+            </div>
           </div>
 
         </form>

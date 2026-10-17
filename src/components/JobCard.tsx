@@ -244,14 +244,23 @@ export const JobCard: React.FC<JobCardProps> = ({
                 </div>
               )}
 
-              <div className="pt-2">
+              <div className="pt-2 flex flex-wrap items-center gap-3">
                 <a
                   href={job.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-400 hover:text-blue-300 underline underline-offset-2"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition shadow-sm"
                 >
                   Eredeti hirdetés megnyitása a(z) {job.source} oldalon ➜
+                </a>
+                <a
+                  href={`https://www.google.com/search?q=${encodeURIComponent(`${job.company} ${job.title} állás`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-slate-200 transition"
+                  title="Ha a portál hirdetése időközben lejárna, ezzel a kereséssel közvetlenül megtalálható a cég karrieroldalán"
+                >
+                  🔍 Google keresés erre az állásra ↗
                 </a>
               </div>
             </div>

@@ -553,6 +553,11 @@ export const App: React.FC = () => {
           JobRepository.saveSettings(newSettings);
           showToast('Beállítások sikeresen mentve!', 'success');
         }}
+        onResetSeed={() => {
+          const fresh = JobRepository.resetToVerifiedSeed();
+          setJobs([...fresh]);
+          showToast('100%-ban működő, ellenőrzött hirdetések sikeresen betöltve!', 'success');
+        }}
       />
 
     </div>
